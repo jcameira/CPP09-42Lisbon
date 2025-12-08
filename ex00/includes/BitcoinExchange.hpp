@@ -26,8 +26,6 @@ class BitcoinExchange
 		std::map< std::string, double > const &getQuotes( void ) const;
 		void execute( char const *fileName );
 
-
-		// Exceptions which printing error message
 		class CouldNotOpenFile : public std::exception {
 
 			public:

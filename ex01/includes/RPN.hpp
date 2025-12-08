@@ -11,12 +11,12 @@ class RPN
 {
 	private:
 
-		std::stack< double > _stack;
-		void _executeStack( double ( RPN::*f )( double, double ) );
-		double _plus( double a, double b );
-		double _minus( double a, double b );
-		double _multiply( double a, double b );
-		double _divide( double a, double b );
+		std::stack< int > _stack;
+		void _executeOperation( int ( RPN::*f )( int, int ) );
+		int _add( int a, int b );
+		int _subtract( int a, int b );
+		int _multiply( int a, int b );
+		int _divide( int a, int b );
 
 	public:
     
@@ -28,7 +28,7 @@ class RPN
 		~RPN( void );
 
 		//Getters
-		double getResult( void ) const;
+		int getResult( void ) const;
 
 
 		//Exceptions

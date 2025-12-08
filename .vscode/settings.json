@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "fstream": "cpp",
+        "sstream": "cpp",
+        "map": "cpp",
+        "exception": "cpp",
+        "string": "cpp",
+        "stack": "cpp",
+        "deque": "cpp",
+        "iostream": "cpp",
+        "algorithm": "cpp",
+        "climits": "cpp",
+        "ctime": "cpp"
+    }
+}

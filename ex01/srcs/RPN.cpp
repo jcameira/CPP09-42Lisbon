@@ -18,13 +18,13 @@ RPN::RPN( const std::string &inputStr ) {
 			_stack.push( num );
 		}
 		else if ( token == "+" )
-			_executeStack( &RPN::_plus );
+			_executeOperation( &RPN::_add );
 		else if (token == "-")
-			_executeStack( &RPN::_minus );
+			_executeOperation( &RPN::_subtract );
 		else if (token == "*")
-			_executeStack( &RPN::_multiply );
+			_executeOperation( &RPN::_multiply );
 		else if (token == "/")
-			_executeStack( &RPN::_divide );
+			_executeOperation( &RPN::_divide );
 		else
 			throw RPN::invalidArgument( "Invalid argument: " + token );
 
@@ -62,25 +62,25 @@ RPN::divisionByZero::divisionByZero( const std::string& msg ) : std::runtime_err
 
 
 // Getters
-double RPN::getResult( void ) const {
+int RPN::getResult( void ) const {
 
 	if ( _stack.empty() )
-		throw RPN::emptyStack( "Empty stack" );
+		throw RPN::emptyStack( "Error: Empty stack" );
 	else if ( _stack.size() > 1 )
-		throw RPN::invalidArgument( "Invalid argument" );
+		throw RPN::invalidArgument( "Error: Invalid argument" );
 
 	return ( _stack.top() );
 
 }
 
 // Private methods
-void RPN::_executeStack( double ( RPN::*f )( double, double ) ) {
+void RPN::_executeOperation( int ( RPN::*f )( int, int ) ) {
 
-	double a;
-	double b;
+	int a;
+	int b;
 
 	if ( _stack.size() < 2 )
-		throw RPN::emptyStack( "Empty stack" );
+		throw RPN::emptyStack( "Error: Empty stack" );
 
 	a = _stack.top();
 	_stack.pop();
@@ -90,28 +90,28 @@ void RPN::_executeStack( double ( RPN::*f )( double, double ) ) {
 
 }
 
-double RPN::_plus( double a, double b ) {
+int RPN::_add( int a, int b ) {
 
 	return ( b + a );
 
 }
 
-double RPN::_minus( double a, double b ) {
+int RPN::_subtract( int a, int b ) {
 
 	return ( b - a );
 
 }
 
-double RPN::_multiply( double a, double b ) {
+int RPN::_multiply( int a, int b ) {
 
 	return ( b * a );
 
 }
 
-double RPN::_divide( double a, double b ) {
+int RPN::_divide( int a, int b ) {
 
 	if ( a == 0 )
-		throw RPN::divisionByZero( "Division by zero" );
+		throw RPN::divisionByZero( "Error: Division by zero" );
 
 	return ( b / a );
 
