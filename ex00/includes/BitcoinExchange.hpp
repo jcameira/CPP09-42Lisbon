@@ -7,6 +7,7 @@
 # include <map>
 # include <exception>
 # include <string>
+# include <cstdlib>
 
 class BitcoinExchange
 {
@@ -39,7 +40,7 @@ class BitcoinExchange
 
 			public:
 				virtual const char *what() const throw() {
-					return ( "Invalid column format. Expected 'date,exchange_rate'" );
+					return ( "Invalid column format. Expected 'date | value'" );
 				}
 
 		};

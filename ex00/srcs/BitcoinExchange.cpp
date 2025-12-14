@@ -121,23 +121,28 @@ bool BitcoinExchange::_validateDate( std::string const &date ) {
 	for ( int i = 0; i < 10; i++ ) {
 		if ( i == 4 || i == 7 )
 			continue;
-		if ( isdigit( date[ i ] ) == 0 )
+		if ( !isdigit( date[ i ] ) )
 			return ( false );
 	}
 
-	if ( date[ 5 ] == '0' && date[ 6 ] == '0' ) 
-		return ( false );
+	int year  = std::atoi( date.substr( 0, 4 ).c_str() );
+    int month = std::atoi( date.substr( 5, 2 ).c_str() );
+    int day   = std::atoi( date.substr( 8, 2 ).c_str() );
 
-	if ( ( date[ 5 ] == '1' && date[ 6 ] > '2' ) || date[ 5 ] > '1' )
-		return ( false );
+    if (month < 1 || month > 12)
+        return ( false  );
 
-	if ( date[ 8 ] == '0' && date[ 9 ] == '0' )
-		return ( false );
+    int daysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-	if ( ( date[ 8 ] == '3' && date[ 9 ] > '1' ) || date[ 8 ] > '3' )
-		return ( false );
-	
-	return ( true );
+    bool isLeap = ( year % 4 == 0 && year % 100 != 0 ) || ( year % 400 == 0 );
+
+    if ( month == 2 && isLeap )
+        daysInMonth[ 1 ] = 29;
+
+    if ( day < 1 || day > daysInMonth[ month - 1 ] )
+        return ( false  );
+
+    return ( true  );
 
 }
 
@@ -146,8 +151,8 @@ double BitcoinExchange::_validatePrice( std::string const &valueStr ) {
 	double priceValue;
 	std::istringstream priceStream( valueStr );
 
-	if ( !( priceStream >> priceValue ) ) {
-		std::cout << "Error: bad value input => " << priceValue << std::endl;
+	if ( !( priceStream >> priceValue ) || !priceStream.eof() ) {
+		std::cout << "Error: bad value input => " << valueStr << std::endl;
 		return ( -1 );
 	}
 
